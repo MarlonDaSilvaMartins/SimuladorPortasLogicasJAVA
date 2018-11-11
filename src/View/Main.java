@@ -10,6 +10,10 @@ import javax.swing.JOptionPane;
  * @version simulador de portas logicas 2.0 - SwingGUI
  */
 public class Main extends javax.swing.JFrame {
+    //Declaração de variáveis
+    String resp = "";//variavel que revebe as tabelas e a saida
+    int tam = 10, saida = 0, cont = 0;// tamanho do array, saida 0 ou 1, contador para inserir no array
+    int[] historico = new int[tam];// array para guardar o historico
     
     /**
      * Creates new form Main
@@ -214,64 +218,66 @@ public class Main extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     
-    
+    //radio button NOT
     private void jrbNotActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jrbNotActionPerformed
-        desabilitarCampos();
+        desabilitarCampos();//desabilita o valor B
     }//GEN-LAST:event_jrbNotActionPerformed
-
+    //radio button OR
     private void jrbOrActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jrbOrActionPerformed
-        habilitarCampos();
+        habilitarCampos();//habilita o valor B
     }//GEN-LAST:event_jrbOrActionPerformed
-
+    //radio button AND
     private void jrbAndActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jrbAndActionPerformed
-        habilitarCampos();
+        habilitarCampos();//habilita o valor B
     }//GEN-LAST:event_jrbAndActionPerformed
-
+    //button historico
     private void jbHistoricoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbHistoricoActionPerformed
-
+        historico();//printa o historico
     }//GEN-LAST:event_jbHistoricoActionPerformed
-
+    //button limpar
     private void jbLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbLimparActionPerformed
-        limpar();
+        limpar();//limpa os campos
     }//GEN-LAST:event_jbLimparActionPerformed
-
+    //button calcular
     private void jbCalcularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCalcularActionPerformed
-        calcular();
-        limpar();
+        calcular();//cria a saida
+        limpar();//limpa os campos
     }//GEN-LAST:event_jbCalcularActionPerformed
 
+    //desabilita o valor B quando o Radio button NOT selecionado
     private void desabilitarCampos(){
-        if(jrbNot.isSelected()){
-            jtValorb.setEnabled(false);
-            jcNotB.setEnabled(false);
+        if(jrbNot.isSelected()){//verifica qual porta logica foi selecionado
+            jtValorb.setEnabled(false);//desabilita valor B
+            jcNotB.setEnabled(false);//desabilita NOT B
         }
     }
+    //habilita o valor B quando outros Radio button são selecionados
     private void habilitarCampos(){
-        if(jrbAnd.isSelected() || jrbOr.isSelected()){
-            jtValorb.setEnabled(true);
-            jcNotB.setEnabled(true);
+        if(jrbAnd.isSelected() || jrbOr.isSelected()){//verifica qual porta logica foi selecionado
+            jtValorb.setEnabled(true);//habilita valor B
+            jcNotB.setEnabled(true);//habilita NOT B
         }
     }
     
     private void calcular(){
-        int saida = 0;
-        String resp = "";
-        try {
+        try {//try catch para tratar erros
             //Validação do button group
-            if(jBtg.isSelected(null)){
-               throw new NumberFormatException("Escolha uma porta lógica"); 
+            if(jBtg.isSelected(null)){//verifica se alguma porta logica esta selecionada
+               throw new NumberFormatException("Escolha uma porta lógica");//mesagem caso nenhuma porta logica for selecionada 
             }
             
             //Validação Valor A
-            String valorA = jtValorA.getText();
-            if(valorA.isEmpty()){
-                throw new NumberFormatException("Preencha o valor A");
+            String valorA = jtValorA.getText();//valorA recebe o campo do valor A
+            if(valorA.isEmpty()){//verifica se a variavel esta vazia
+                throw new NumberFormatException("Preencha o valor A");//mensagem caso estaja vazia
             }
+            //verifica se é 1 ou 0
             if(!valorA.equalsIgnoreCase("1")&&!valorA.equalsIgnoreCase("0")){
-                throw new NumberFormatException("Preencha o valor A apenas com 1 ou 0");
+                throw new NumberFormatException("Preencha o valor A apenas com 1 ou 0");//mensagem se não for 1 ou 0
             }
+            //verifica se checkbox not esta marcada
             if(jcNotA.isSelected()){
-                if(valorA.equals("1")){
+                if(valorA.equals("1")){//verifica qual valor esta na porta e inverte
                     valorA = "0";
                 }else if(valorA.equals("0")){
                     valorA = "1";
@@ -279,27 +285,30 @@ public class Main extends javax.swing.JFrame {
             }
             
             //Validação valor B
-            String valorB = jtValorb.getText();
-            if(jtValorb.isEnabled()){
-                if(valorB.isEmpty()){
-                    throw new NumberFormatException("Preencha o valor B");
+            String valorB = jtValorb.getText();//valorB recebe o campo do valor B
+            if(jtValorb.isEnabled()){//verifica se o campo esta habilitado
+                if(valorB.isEmpty()){//verifica se a variavel esta vazia
+                    throw new NumberFormatException("Preencha o valor B");//mensagem caso estaja vazia
                 }
+                //verifica se é 1 ou 0
                 if(!valorB.equalsIgnoreCase("1")&&!valorB.equalsIgnoreCase("0")){
-                    throw new NumberFormatException("Preencha o valor B apenas com 1 ou 0");
+                    throw new NumberFormatException("Preencha o valor B apenas com 1 ou 0");//mensagem se não for 1 ou 0
                 }
-            }
-            if(jcNotB.isSelected()){
-                if(valorB.equals("1")){
-                    valorB = "0";
-                }else if(valorB.equals("0")){
-                    valorB = "1";
+                //verifica se checkbox not esta marcada
+                if(jcNotB.isSelected()){
+                    if(valorB.equals("1")){//verifica qual valor esta na porta e inverte
+                        valorB = "0";
+                    }else if(valorB.equals("0")){
+                        valorB = "1";
+                    }
                 }
-            }
+            }    
             
             //Switch para escolher porta lógica
             switch(jBtg.getSelection().getActionCommand()){
                 //case Porta AND    
                 case "AND":
+                    //verifica quais foram as entradas e cria o resultado
                     if(valorA.equals("0") && valorB.equals("0")){
                         saida = 0;
                     }else if(valorA.equals("0") && valorB.equals("1")){
@@ -311,7 +320,7 @@ public class Main extends javax.swing.JFrame {
                     }
                     
                     //print da tabela verdade e da saida
-                    if(jcNotA.isSelected() && jcNotB.isSelected()){
+                    if(jcNotA.isSelected() && jcNotB.isSelected()){//verifica se os check box estao marcados
                         resp = " Tabela Verdade "
                             + "\n A'| B'| S"
                             + "\n 1 | 1 | 1"
@@ -335,7 +344,7 @@ public class Main extends javax.swing.JFrame {
                             + "\n 0 | 0 | 0"
                             + "\n 0 | 1 | 0"
                             + "\n\n A saída é: "+saida;
-                    }else{
+                    }else{//caso nenhum esteja este é o selecionado
                         resp = " Tabela Verdade "
                             + "\n A | B | S"
                             + "\n 0 | 0 | 0"
@@ -344,9 +353,12 @@ public class Main extends javax.swing.JFrame {
                             + "\n 1 | 1 | 1"
                             + "\n\n A saída é: "+saida;
                     }
+                    historico[cont] = saida;//coloca a saida no historico
+                    cont++;//aumenta o contador do historico
                     break;
                 //case Porta OR
                 case "OR":
+                    //verifica quais foram as entradas e cria o resultado
                     if(valorA.equals("0") && valorB.equals("0")){
                         saida = 0;
                     }else if(valorA.equals("0") && valorB.equals("1")){
@@ -358,7 +370,7 @@ public class Main extends javax.swing.JFrame {
                     }
                     
                     //print da tabela verdade e da saida
-                    if(jcNotA.isSelected() && jcNotB.isSelected()){
+                    if(jcNotA.isSelected() && jcNotB.isSelected()){//verifica se os check box estao marcados
                         resp = " Tabela Verdade A'+B'"
                             + "\n A'| B'| S"
                             + "\n 1 | 1 | 1"
@@ -382,7 +394,7 @@ public class Main extends javax.swing.JFrame {
                             + "\n 0 | 0 | 0"
                             + "\n 0 | 1 | 1"
                             + "\n\n A saída é: "+saida;
-                    }else{
+                    }else{//caso nenhum esteja este é o selecionado
                         resp = " Tabela Verdade "
                             + "\n A | B | S"
                             + "\n 0 | 0 | 0"
@@ -391,49 +403,58 @@ public class Main extends javax.swing.JFrame {
                             + "\n 1 | 1 | 1"
                             + "\n\n A saída é: "+saida;
                     }
-                     
+                    historico[cont] = saida;//coloca a saida no historico
+                    cont++;//aumenta o contador do historico
                     break;    
                 case "NOT":
+                    //verifica quais foram as entradas e cria o resultado
                     if(valorA.equals("0")){
                         saida = 1;
                     }else if(valorA.equals("1")){
                         saida = 0;
                     }
                     //print da tabela verdade e da saida
-                    if(jcNotA.isSelected()){
+                    if(jcNotA.isSelected()){//verifica se os check box estao marcados
                         resp = " Tabela Verdade A'"
                             + "\n A'| S"
                             + "\n 1 | 0"
                             + "\n 0 | 1"
                             + "\n\n A saída é: "+saida;
-                    }else{
+                    }else{//caso não estajaa marcado esta sera a saida
                         resp = " Tabela Verdade A"
                             + "\n A | S"
                             + "\n 0 | 1"
                             + "\n 1 | 0"
                             + "\n\n A saída é: "+saida;
                     }
-                    break;    
+                    historico[cont] = saida;//coloca a saida no historico
+                    cont++;//aumenta o contador do historico
+                    break;
             }
-            
-            txtArea.setText(resp);
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(
+            txtArea.setText(resp);//coloca saida no text area
+        } catch (Exception e) {//tratamento de erros
+            JOptionPane.showMessageDialog(//mensagem quand acontecer algum erro
                     this, 
                     "Erro! "+e.getMessage());
         }
     }//calcular
     
-    private void limpar(){
-        jtValorA.setText("");
-        jtValorb.setText("");
-        jcNotA.setSelected(false);
-        jcNotB.setSelected(false);
-        jBtg.clearSelection();
+    private void limpar(){//limpa os campos
+        jtValorA.setText("");//limpa valor A
+        jtValorb.setText("");//limpa valor B
+        jcNotA.setSelected(false);//limpa check box A
+        jcNotB.setSelected(false);//limpa check box B
+        jBtg.clearSelection();//limpa radio button
     }
-    /**
-     * @param args the command line arguments
-     */
+    
+    private void historico(){//printa o historico
+        resp = "Historico\n";//respota recebe o historico
+        for(int i = 0; i < historico.length; i++){//for para adicionar os valores do array
+            resp += historico[i]+" ";
+        }
+        txtArea.setText(resp);//inserção no text area
+    }
+    /*FIM DO CÓDIGO*/
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
